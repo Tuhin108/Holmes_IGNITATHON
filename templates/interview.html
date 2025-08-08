@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewGPT - AI Interview Session</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            background-size: 400% 400%;
+            animation: galaxyShift 12s ease infinite;
+            min-height: 100vh;
+            padding: 1rem;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes galaxyShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 25%; }
+            50% { background-position: 50% 100%; }
+            75% { background-position: 25% 0%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Cyber grid overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Floating watermarks */
+        .watermark {
+            position: absolute;
+            color: rgba(0, 255, 255, 0.04);
+            font-weight: 700;
+            font-size: 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+            transform: rotate(-45deg);
+            letter-spacing: 3px;
+        }
+
+        .watermark:nth-child(1) {
+            top: 10%;
+            left: -300px;
+            animation: floatUpDiagonal 20s linear infinite;
+        }
+
+        .watermark:nth-child(2) {
+            top: 30%;
+            left: -300px;
+            animation: floatDownDiagonal 20s linear infinite;
+            animation-delay: -7s;
+        }
+
+        .watermark:nth-child(3) {
+            top: 50%;
+            left: -300px;
+            animation: floatUpDiagonal 20s linear infinite;
+            animation-delay: -14s;
+        }
+
+        .watermark:nth-child(4) {
+            top: 70%;
+            left: -300px;
+            animation: floatDownDiagonal 20s linear infinite;
+            animation-delay: -3s;
+        }
+
+        @keyframes floatUpDiagonal {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-45deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 1;
+            }
+            85% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(calc(100vw + 300px)) translateY(-60px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatDownDiagonal {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-45deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 1;
+            }
+            85% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(calc(100vw + 300px)) translateY(60px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+        /* Floating tech particles */
+        .tech-particle {
+            position: absolute;
+            color: rgba(0, 255, 255, 0.3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            pointer-events: none;
+            z-index: 2;
+            animation: techFloat 12s ease-in-out infinite;
+        }
+
+        .tech-particle:nth-child(5) {
+            top: 20%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .tech-particle:nth-child(6) {
+            top: 80%;
+            left: 90%;
+            animation-delay: -4s;
+        }
+
+        .tech-particle:nth-child(7) {
+            top: 40%;
+            left: 85%;
+            animation-delay: -8s;
+        }
+
+        .tech-particle:nth-child(8) {
+            top: 60%;
+            left: 15%;
+            animation-delay: -2s;
+        }
+
+        @keyframes techFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translateY(-20px) rotate(90deg);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-10px) rotate(180deg);
+                opacity: 0.4;
+            }
+            75% {
+                transform: translateY(-30px) rotate(270deg);
+                opacity: 0.7;
+            }
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 50, 0.9));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 255, 255, 0.2);
+            box-shadow: 
+                0 0 60px rgba(0, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 25px 50px rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+            animation: containerGlow 4s ease-in-out infinite alternate;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.08), transparent);
+            animation: scanLine 4s ease-in-out infinite;
+        }
+
+        @keyframes containerGlow {
+            0% {
+                box-shadow: 
+                    0 0 60px rgba(0, 255, 255, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                    0 25px 50px rgba(0, 0, 0, 0.5);
+            }
+            100% {
+                box-shadow: 
+                    0 0 80px rgba(0, 255, 255, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                    0 30px 60px rgba(0, 0, 0, 0.6);
+            }
+        }
+
+        @keyframes scanLine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, #00ffff, #ff00ff, #ffff00);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientText 3s ease infinite;
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        @keyframes gradientText {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .role-display {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-highlight {
+            color: #00ffff;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .progress-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.3);
+            height: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            height: 100%;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShine 2s ease-in-out infinite;
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .content {
+            padding: 2.5rem;
+            position: relative;
+        }
+        
+        .question-section {
+            display: none;
+            text-align: center;
+        }
+        
+        .question-section.active {
+            display: block;
+        }
+        
+        .question-type {
+            display: inline-block;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            color: #000;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        .question {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            font-weight: 400;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .recording-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .recording-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 32px rgba(231, 76, 60, 0.3);
+        }
+
+        .recording-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .recording-btn:hover::before {
+            left: 100%;
+        }
+        
+        .recording-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(231, 76, 60, 0.4);
+        }
+        
+        .recording-btn.recording {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            animation: recordingPulse 2s ease-in-out infinite;
+            box-shadow: 0 8px 32px rgba(39, 174, 96, 0.4);
+        }
+        
+        @keyframes recordingPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .answer-display {
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.8), rgba(25, 25, 50, 0.6));
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            min-height: 80px;
+            border: 2px solid rgba(0, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            transition: all 0.4s ease;
+        }
+        
+        .answer-display.has-content {
+            border-color: #00ffff;
+            color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+        
+        .submit-btn, .next-btn {
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            color: #000;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 32px rgba(0, 255, 255, 0.3);
+        }
+
+        .submit-btn::before, .next-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .submit-btn:hover::before, .next-btn:hover::before {
+            left: 100%;
+        }
+        
+        .submit-btn:hover, .next-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 255, 255, 0.4);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .submit-btn:disabled::before {
+            display: none;
+        }
+        
+        .feedback-section {
+            display: none;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-top: 2rem;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .feedback-section::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #00ffff, #ff00ff);
+            border-radius: 2px;
+        }
+        
+        .feedback-section.show {
+            display: block;
+            animation: feedbackSlideIn 0.6s ease-out;
+        }
+
+        @keyframes feedbackSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .score {
+            font-size: 3rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        .feedback-text {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .loading {
+            display: none;
+            color: #00ffff;
+            margin-top: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+        }
+
+        .loading-text {
+            animation: loadingPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes loadingPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .error {
+            color: #ff4757;
+            background: rgba(255, 71, 87, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            margin-top: 1.5rem;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .browser-warning {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            display: none;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        
+        .manual-input {
+            display: none;
+            margin-top: 1.5rem;
+        }
+        
+        .manual-input textarea {
+            width: 100%;
+            padding: 18px 24px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 16px;
+            font-size: 1.1rem;
+            background: rgba(15, 15, 35, 0.8);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            resize: vertical;
+            min-height: 120px;
+            transition: all 0.4s ease;
+        }
+
+        .manual-input textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .manual-input textarea:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 
+                0 0 0 4px rgba(0, 255, 255, 0.1),
+                0 0 20px rgba(0, 255, 255, 0.3);
+            background: rgba(15, 15, 35, 0.95);
+        }
+        
+        .toggle-input {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .toggle-input:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4);
+        }
+
+        .use-typed-btn {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .use-typed-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 0.5rem;
+                border-radius: 20px;
+            }
+            
+            .header {
+                padding: 2rem 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .question {
+                font-size: 1.2rem;
+                padding: 1.2rem;
+            }
+            
+            .recording-btn {
+                padding: 16px 32px;
+                font-size: 1.1rem;
+            }
+            
+            .submit-btn, .next-btn {
+                padding: 14px 28px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating watermarks -->
+    <div class="watermark">AI INTERVIEW • MASTERY</div>
+    <div class="watermark">AI INTERVIEW • MASTERY</div>
+    <div class="watermark">AI INTERVIEW • MASTERY</div>
+    <div class="watermark">AI INTERVIEW • MASTERY</div>
+
+    <!-- Floating tech particles -->
+    <div class="tech-particle">01010</div>
+    <div class="tech-particle">{Q&A}</div>
+    <div class="tech-particle">&lt;/&gt;</div>
+    <div class="tech-particle">▲▼▲</div>
+
+    <div class="browser-warning" id="browserWarning">
+        ⚠️ Speech recognition is not supported in your browser. You can still type your answers manually.
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI Interview Session</h1>
+            <p class="role-display" id="roleDisplay">Role: <span class="tech-highlight">Loading...</span></p>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="question-section active" id="questionSection">
+                <div class="question-type" id="questionType">Loading...</div>
+                <div class="question" id="questionText">⚡ Initializing neural pathways...</div>
+                
+                <div class="recording-section">
+                    <button class="recording-btn" id="recordBtn">🎤 Activate Voice Input</button>
+                    <div class="answer-display" id="answerDisplay">Your neural response will materialize here...</div>
+                    <button class="toggle-input" id="toggleInput">Switch to Manual</button>
+                </div>
+                
+                <div class="manual-input" id="manualInput">
+                    <textarea id="manualAnswer" placeholder="Input your response using the manual interface..."></textarea>
+                    <button class="use-typed-btn" id="useTypedAnswer">Deploy Response</button>
+                </div>
+                
+                <button class="submit-btn" id="submitBtn" disabled>
+                    ⚡ Submit to AI Core
+                </button>
+                
+                <div class="loading" id="loading">
+                    <p class="loading-text">🧠 Processing neural patterns...</p>
+                </div>
+                
+                <div class="error" id="error">
+                    <p>System anomaly detected. Attempting reconnection...</p>
+                </div>
+                
+                <div class="feedback-section" id="feedbackSection">
+                    <div class="score" id="score">-/10</div>
+                    <div class="feedback-text" id="feedbackText">AI evaluation will materialize here...</div>
+                    <button class="next-btn" id="nextBtn">⚡ Next Neural Challenge</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let answers = [];
+        let role = '';
+        let recognition = null;
+        let isRecording = false;
+        let currentAnswer = '';
+        
+        // Initialize the interview
+        function initInterview() {
+            // Get data from sessionStorage
+            const storedQuestions = sessionStorage.getItem('questions');
+            const storedRole = sessionStorage.getItem('role');
+            const storedCurrentQuestion = sessionStorage.getItem('currentQuestion');
+            const storedAnswers = sessionStorage.getItem('answers');
+            
+            if (!storedQuestions || !storedRole) {
+                alert('No interview data found. Redirecting to home page.');
+                window.location.href = '/';
+                return;
+            }
+            
+            questions = JSON.parse(storedQuestions);
+            role = storedRole;
+            currentQuestionIndex = parseInt(storedCurrentQuestion) || 0;
+            answers = JSON.parse(storedAnswers) || [];
+            
+            // Update display
+            document.getElementById('roleDisplay').innerHTML = `Role: <span class="tech-highlight">${role}</span>`;
+            
+            // Check if interview is complete
+            if (currentQuestionIndex >= questions.length) {
+                window.location.href = '/results';
+                return;
+            }
+            
+            // Initialize speech recognition
+            initSpeechRecognition();
+            
+            // Display current question
+            displayQuestion();
+        }
+        
+        function initSpeechRecognition() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                document.getElementById('browserWarning').style.display = 'block';
+                document.getElementById('recordBtn').disabled = true;
+                return;
+            }
+            
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+            
+            recognition.onstart = function() {
+                isRecording = true;
+                const recordBtn = document.getElementById('recordBtn');
+                recordBtn.textContent = '🔴 Neural Link Active';
+                recordBtn.classList.add('recording');
+            };
+            
+            recognition.onresult = function(event) {
+                let interimTranscript = '';
+                let finalTranscript = '';
+                
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript;
+                    } else {
+                        interimTranscript += transcript;
+                    }
+                }
+                
+                currentAnswer = finalTranscript;
+                const answerDisplay = document.getElementById('answerDisplay');
+                answerDisplay.textContent = finalTranscript + interimTranscript;
+                
+                if (finalTranscript.trim()) {
+                    answerDisplay.classList.add('has-content');
+                    document.getElementById('submitBtn').disabled = false;
+                }
+            };
+            
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+                stopRecording();
+                document.getElementById('error').textContent = 'Neural link disruption detected. Attempting manual override...';
+                document.getElementById('error').style.display = 'block';
+            };
+            
+            recognition.onend = function() {
+                stopRecording();
+            };
+        }
+        
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('questionType').textContent = question.type;
+            document.getElementById('questionText').textContent = question.question;
+            
+            // Update progress bar
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Reset UI
+            document.getElementById('answerDisplay').textContent = 'Your neural response will materialize here...';
+            document.getElementById('answerDisplay').classList.remove('has-content');
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('feedbackSection').classList.remove('show');
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
+            
+            // Reset manual input
+            document.getElementById('manualInput').style.display = 'none';
+            document.getElementById('manualAnswer').value = '';
+            document.getElementById('toggleInput').textContent = 'Switch to Manual';
+            
+            currentAnswer = '';
+        }
+        
+        function startRecording() {
+            if (!recognition) {
+                alert('Neural voice interface unavailable. Please use manual input.');
+                return;
+            }
+            
+            if (!isRecording) {
+                recognition.start();
+            } else {
+                recognition.stop();
+            }
+        }
+        
+        function stopRecording() {
+            isRecording = false;
+            const recordBtn = document.getElementById('recordBtn');
+            recordBtn.textContent = '🎤 Activate Voice Input';
+            recordBtn.classList.remove('recording');
+        }
+        
+        function toggleManualInput() {
+            const manualInput = document.getElementById('manualInput');
+            const toggleBtn = document.getElementById('toggleInput');
+            
+            if (manualInput.style.display === 'none') {
+                manualInput.style.display = 'block';
+                toggleBtn.textContent = 'Switch to Voice';
+            } else {
+                manualInput.style.display = 'none';
+                toggleBtn.textContent = 'Switch to Manual';
+            }
+        }
+        
+        function useTypedAnswer() {
+            const typedAnswer = document.getElementById('manualAnswer').value.trim();
+            if (!typedAnswer) {
+                alert('Please input your response first.');
+                return;
+            }
+            
+            currentAnswer = typedAnswer;
+            const answerDisplay = document.getElementById('answerDisplay');
+            answerDisplay.textContent = typedAnswer;
+            answerDisplay.classList.add('has-content');
+            document.getElementById('submitBtn').disabled = false;
+            
+            // Hide manual input
+            document.getElementById('manualInput').style.display = 'none';
+            document.getElementById('toggleInput').textContent = 'Switch to Manual';
+        }
+        
+        async function submitAnswer() {
+            if (!currentAnswer.trim()) {
+                alert('Please provide a response before submitting to the AI core.');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            
+            try {
+                const response = await fetch('/evaluate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question: questions[currentQuestionIndex].question,
+                        answer: currentAnswer
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // Store the answer and evaluation
+                const answerData = {
+                    question: questions[currentQuestionIndex],
+                    answer: currentAnswer,
+                    feedback: data.feedback,
+                    score: data.score
+                };
+                
+                answers.push(answerData);
+                sessionStorage.setItem('answers', JSON.stringify(answers));
+                
+                // Display feedback
+                displayFeedback(data.feedback, data.score);
+                
+            } catch (err) {
+                console.error('Error:', err);
+                error.textContent = err.message || 'AI core connection failed. Please retry transmission.';
+                error.style.display = 'block';
+                submitBtn.disabled = false;
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+        
+        function displayFeedback(feedback, score) {
+            document.getElementById('score').textContent = `${score}/10`;
+            document.getElementById('feedbackText').textContent = feedback;
+            document.getElementById('feedbackSection').classList.add('show');
+            
+            // Color code the score
+            const scoreElement = document.getElementById('score');
+            if (score >= 8) {
+                scoreElement.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                scoreElement.style.webkitBackgroundClip = 'text';
+                scoreElement.style.webkitTextFillColor = 'transparent';
+            } else if (score >= 6) {
+                scoreElement.style.background = 'linear-gradient(135deg, #f39c12, #e67e22)';
+                scoreElement.style.webkitBackgroundClip = 'text';
+                scoreElement.style.webkitTextFillColor = 'transparent';
+            } else {
+                scoreElement.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                scoreElement.style.webkitBackgroundClip = 'text';
+                scoreElement.style.webkitTextFillColor = 'transparent';
+            }
+        }
+        
+        function nextQuestion() {
+            currentQuestionIndex++;
+            sessionStorage.setItem('currentQuestion', currentQuestionIndex.toString());
+            
+            if (currentQuestionIndex >= questions.length) {
+                // Interview complete, go to results
+                window.location.href = '/results';
+            } else {
+                // Display next question
+                displayQuestion();
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('recordBtn').addEventListener('click', startRecording);
+        document.getElementById('submitBtn').addEventListener('click', submitAnswer);
+        document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        document.getElementById('toggleInput').addEventListener('click', toggleManualInput);
+        document.getElementById('useTypedAnswer').addEventListener('click', useTypedAnswer);
+        
+        // Initialize when page loads
+        window.addEventListener('load', initInterview);
+        
+        // Handle page refresh/close
+        window.addEventListener('beforeunload', function() {
+            if (recognition && isRecording) {
+                recognition.stop();
+            }
+        });
+    </script>
+</body>
+</html>

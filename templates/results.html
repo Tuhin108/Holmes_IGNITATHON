@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewGPT - Interview Results</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            background-size: 400% 400%;
+            animation: galaxyShift 12s ease infinite;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes galaxyShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 25%; }
+            50% { background-position: 50% 100%; }
+            75% { background-position: 25% 0%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Cyber grid overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Floating watermarks in diagonal pattern */
+        .watermark {
+            position: fixed;
+            color: rgba(0, 255, 255, 0.04);
+            font-weight: 700;
+            font-size: 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+            transform: rotate(-45deg);
+            letter-spacing: 3px;
+        }
+
+        .watermark:nth-child(1) {
+            top: 5%;
+            left: -400px;
+            animation: floatUpDiagonal 25s linear infinite;
+            animation-delay: 0s;
+        }
+
+        .watermark:nth-child(2) {
+            top: 20%;
+            left: -400px;
+            animation: floatDownDiagonal 25s linear infinite;
+            animation-delay: -5s;
+        }
+
+        .watermark:nth-child(3) {
+            top: 35%;
+            left: -400px;
+            animation: floatUpDiagonal 25s linear infinite;
+            animation-delay: -10s;
+        }
+
+        .watermark:nth-child(4) {
+            top: 50%;
+            left: -400px;
+            animation: floatDownDiagonal 25s linear infinite;
+            animation-delay: -15s;
+        }
+
+        .watermark:nth-child(5) {
+            top: 65%;
+            left: -400px;
+            animation: floatUpDiagonal 25s linear infinite;
+            animation-delay: -20s;
+        }
+
+        .watermark:nth-child(6) {
+            top: 80%;
+            left: -400px;
+            animation: floatDownDiagonal 25s linear infinite;
+            animation-delay: -25s;
+        }
+
+        @keyframes floatUpDiagonal {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-45deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 1;
+            }
+            85% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(calc(100vw + 400px)) translateY(-80px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatDownDiagonal {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-45deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 1;
+            }
+            85% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(calc(100vw + 400px)) translateY(80px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+        /* Floating tech particles */
+        .tech-particle {
+            position: fixed;
+            color: rgba(0, 255, 255, 0.3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 2;
+            animation: techFloat 15s ease-in-out infinite;
+        }
+
+        .tech-particle:nth-child(7) {
+            top: 15%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .tech-particle:nth-child(8) {
+            top: 75%;
+            left: 90%;
+            animation-delay: -5s;
+        }
+
+        .tech-particle:nth-child(9) {
+            top: 30%;
+            left: 85%;
+            animation-delay: -10s;
+        }
+
+        .tech-particle:nth-child(10) {
+            top: 60%;
+            left: 10%;
+            animation-delay: -7s;
+        }
+
+        @keyframes techFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translateY(-30px) rotate(90deg);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-15px) rotate(180deg);
+                opacity: 0.4;
+            }
+            75% {
+                transform: translateY(-45px) rotate(270deg);
+                opacity: 0.7;
+            }
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 50, 0.9));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 255, 255, 0.2);
+            box-shadow: 
+                0 0 60px rgba(0, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 25px 50px rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+            animation: containerGlow 4s ease-in-out infinite alternate;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            animation: scanLine 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes containerGlow {
+            0% {
+                box-shadow: 
+                    0 0 60px rgba(0, 255, 255, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                    0 25px 50px rgba(0, 0, 0, 0.5);
+            }
+            100% {
+                box-shadow: 
+                    0 0 80px rgba(0, 255, 255, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                    0 30px 60px rgba(0, 0, 0, 0.6);
+            }
+        }
+
+        @keyframes scanLine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            backdrop-filter: blur(15px);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 2px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #00ffff, #ff00ff, #ffff00);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientText 3s ease infinite;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+        }
+
+        @keyframes gradientText {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        #roleDisplay {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-highlight {
+            color: #00ffff;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .overall-score {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+            font-family: 'JetBrains Mono', monospace;
+            animation: scoreGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes scoreGlow {
+            0% {
+                text-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+            }
+            100% {
+                text-shadow: 0 0 50px rgba(0, 255, 255, 1);
+            }
+        }
+        
+        .performance-badge {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1px;
+            animation: badgeFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes badgeFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .content {
+            padding: 2.5rem;
+            position: relative;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(0, 255, 255, 0.05));
+            backdrop-filter: blur(15px);
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 2px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            animation: cardPulse 4s ease-in-out infinite;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            animation: cardScan 6s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes cardPulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(0, 255, 255, 0.2);
+            }
+        }
+
+        @keyframes cardScan {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(0, 255, 255, 0.3);
+            border-color: rgba(0, 255, 255, 0.5);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+        }
+        
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        
+        .questions-section {
+            margin-top: 3rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+        }
+        
+        .question-card {
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 255, 255, 0.05));
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 2px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .question-card:hover::before {
+            left: 100%;
+        }
+
+        .question-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 60px rgba(0, 255, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.4);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .question-type {
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .question-score {
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 1rem 1.5rem;
+            border-radius: 25px;
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(10px);
+            border: 2px solid;
+            font-family: 'JetBrains Mono', monospace;
+            text-shadow: 0 0 10px currentColor;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            line-height: 1.6;
+            position: relative;
+        }
+        
+        .answer-section, .feedback-section {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .answer-label {
+            font-weight: bold;
+            color: #00ffff;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .answer-text {
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.5), rgba(0, 255, 255, 0.05));
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            font-style: italic;
+            position: relative;
+        }
+        
+        .feedback-text {
+            background: linear-gradient(145deg, rgba(0, 100, 255, 0.1), rgba(0, 255, 255, 0.05));
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #00ffff;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            box-shadow: 0 8px 32px rgba(0, 255, 255, 0.1);
+        }
+        
+        .actions {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            border-top: 2px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 18px 40px;
+            margin: 0 15px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #ffff00 100%);
+            background-size: 200% 200%;
+            color: #000;
+            animation: buttonGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes buttonGlow {
+            0% {
+                background-position: 0% 50%;
+                box-shadow: 0 8px 32px rgba(0, 255, 255, 0.3);
+            }
+            100% {
+                background-position: 100% 50%;
+                box-shadow: 0 12px 40px rgba(255, 0, 255, 0.4);
+            }
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(15px);
+            color: #00ffff;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(145deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            border-color: rgba(0, 255, 255, 0.6);
+        }
+        
+        .btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(0, 255, 255, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 4rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .no-data h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: #00ffff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                margin: 0;
+            }
+            
+            .header {
+                padding: 2rem 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .overall-score {
+                font-size: 3rem;
+            }
+            
+            .content {
+                padding: 2rem 1.5rem;
+            }
+
+            .summary-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+            
+            .question-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .question-card {
+                padding: 1.5rem;
+            }
+            
+            .actions {
+                padding: 2rem 1rem;
+            }
+            
+            .btn {
+                display: block;
+                margin: 1rem auto;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .watermark {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating watermarks in diagonal pattern -->
+    <div class="watermark">INTERVIEW RESULTS • AI ANALYSIS</div>
+    <div class="watermark">INTERVIEW RESULTS • AI ANALYSIS</div>
+    <div class="watermark">INTERVIEW RESULTS • AI ANALYSIS</div>
+    <div class="watermark">INTERVIEW RESULTS • AI ANALYSIS</div>
+    <div class="watermark">INTERVIEW RESULTS • AI ANALYSIS</div>
+    <div class="watermark">INTERVIEW RESULTS • AI ANALYSIS</div>
+
+    <!-- Floating tech particles -->
+    <div class="tech-particle">📊</div>
+    <div class="tech-particle">🎯</div>
+    <div class="tech-particle">⚡</div>
+    <div class="tech-particle">🤖</div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Interview Complete!</h1>
+            <p id="roleDisplay">Role: Loading...</p>
+            <div class="overall-score" id="overallScore">-/10</div>
+            <div class="performance-badge" id="performanceBadge">Calculating...</div>
+        </div>
+        
+        <div class="content">
+            <div id="noData" class="no-data" style="display: none;">
+                <h2>No Interview Data Found</h2>
+                <p>It looks like you haven't completed an interview yet.</p>
+                <a href="/" class="btn btn-primary">Start New Interview</a>
+            </div>
+            
+            <div id="resultsContent">
+                <div class="summary-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="avgScore">-</div>
+                        <div class="stat-label">Average Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="questionsAnswered">-</div>
+                        <div class="stat-label">Questions Answered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="topScore">-</div>
+                        <div class="stat-label">Highest Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="strongestArea">-</div>
+                        <div class="stat-label">Strongest Area</div>
+                    </div>
+                </div>
+                
+                <div class="questions-section">
+                    <h2 class="section-title">📋 Question by Question Breakdown</h2>
+                    <div id="questionsList">
+                        <!-- Questions will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <a href="/" class="btn btn-primary">⚡ Start New Interview</a>
+            <button onclick="window.print()" class="btn btn-secondary">📄 Print Results</button>
+        </div>
+    </div>
+
+    <script>
+        function initResults() {
+            const storedAnswers = sessionStorage.getItem('answers');
+            const storedRole = sessionStorage.getItem('role');
+            
+            if (!storedAnswers || !storedRole) {
+                document.getElementById('noData').style.display = 'block';
+                document.getElementById('resultsContent').style.display = 'none';
+                return;
+            }
+            
+            const answers = JSON.parse(storedAnswers);
+            const role = storedRole;
+            
+            if (answers.length === 0) {
+                document.getElementById('noData').style.display = 'block';
+                document.getElementById('resultsContent').style.display = 'none';
+                return;
+            }
+            
+            // Update role display
+            document.getElementById('roleDisplay').textContent = `Role: ${role}`;
+            
+            // Calculate statistics
+            const scores = answers.map(a => a.score);
+            const avgScore = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
+            const topScore = Math.max(...scores);
+            
+            // Find strongest area
+            const areaScores = {};
+            answers.forEach(answer => {
+                const type = answer.question.type;
+                if (!areaScores[type]) {
+                    areaScores[type] = [];
+                }
+                areaScores[type].push(answer.score);
+            });
+            
+            let strongestArea = '';
+            let highestAvg = 0;
+            Object.keys(areaScores).forEach(area => {
+                const avg = areaScores[area].reduce((a, b) => a + b, 0) / areaScores[area].length;
+                if (avg > highestAvg) {
+                    highestAvg = avg;
+                    strongestArea = area;
+                }
+            });
+            
+            // Update displays
+            document.getElementById('overallScore').textContent = `${avgScore}/10`;
+            document.getElementById('avgScore').textContent = avgScore;
+            document.getElementById('questionsAnswered').textContent = answers.length;
+            document.getElementById('topScore').textContent = topScore;
+            document.getElementById('strongestArea').textContent = strongestArea;
+            
+            // Set performance badge
+            const performanceBadge = document.getElementById('performanceBadge');
+            if (parseFloat(avgScore) >= 8) {
+                performanceBadge.textContent = '🏆 Excellent Performance';
+                performanceBadge.style.background = 'linear-gradient(135deg, rgba(39, 174, 96, 0.3), rgba(0, 255, 255, 0.2))';
+            } else if (parseFloat(avgScore) >= 6) {
+                performanceBadge.textContent = '👍 Good Performance';
+                performanceBadge.style.background = 'linear-gradient(135deg, rgba(243, 156, 18, 0.3), rgba(255, 255, 0, 0.2))';
+            } else {
+                performanceBadge.textContent = '📈 Room for Improvement';
+                performanceBadge.style.background = 'linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(255, 0, 100, 0.2))';
+            }
+            
+            // Color code overall score
+            const overallScoreElement = document.getElementById('overallScore');
+            if (parseFloat(avgScore) >= 8) {
+                overallScoreElement.style.color = '#00ff88';
+            } else if (parseFloat(avgScore) >= 6) {
+                overallScoreElement.style.color = '#ffff00';
+            } else {
+                overallScoreElement.style.color = '#ff4477';
+            }
+            
+            // Populate questions
+            const questionsList = document.getElementById('questionsList');
+            answers.forEach((answer, index) => {
+                const questionCard = createQuestionCard(answer, index + 1);
+                questionsList.appendChild(questionCard);
+            });
+        }
+        
+        function createQuestionCard(answer, questionNumber) {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            
+            // Color code score
+            let scoreColor = '#ff4477';
+            if (answer.score >= 8) scoreColor = '#00ff88';
+            else if (answer.score >= 6) scoreColor = '#ffff00';
+            
+            card.innerHTML = `
+                <div class="question-header">
+                    <div class="question-type">${answer.question.type}</div>
+                    <div class="question-score" style="color: ${scoreColor}; border-color: ${scoreColor};">
+                        ${answer.score}/10
+                    </div>
+                </div>
+                
+                <div class="question-text">
+                    <strong>Q${questionNumber}:</strong> ${answer.question.question}
+                </div>
+                
+                <div class="answer-section">
+                    <div class="answer-label">Your Answer:</div>
+                    <div class="answer-text">"${answer.answer}"</div>
+                </div>
+                
+                <div class="feedback-section">
+                    <div class="answer-label">AI Feedback:</div>
+                    <div class="feedback-text">${answer.feedback}</div>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', initResults);
+        
+        // Clear session data when starting new interview
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            sessionStorage.clear();
+        });
+    </script>
+</body>
+</html>
