@@ -13,15 +13,26 @@
             box-sizing: border-box;
         }
         
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
             background-size: 400% 400%;
+            background-attachment: fixed;
             animation: galaxyShift 12s ease infinite;
             min-height: 100vh;
             padding: 2rem;
             position: relative;
             overflow-x: hidden;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            will-change: background-position;
         }
 
         @keyframes galaxyShift {
@@ -47,6 +58,9 @@
             animation: gridMove 20s linear infinite;
             pointer-events: none;
             z-index: 1;
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
 
         @keyframes gridMove {
@@ -533,7 +547,9 @@
         }
         
         .actions {
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
             margin-top: 3rem;
             padding: 2rem;
             border-top: 2px solid rgba(0, 255, 255, 0.2);

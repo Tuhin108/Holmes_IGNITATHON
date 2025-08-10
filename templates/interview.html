@@ -13,15 +13,26 @@
             box-sizing: border-box;
         }
         
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
             background-size: 400% 400%;
+            background-attachment: fixed;
             animation: galaxyShift 12s ease infinite;
             min-height: 100vh;
             padding: 1rem;
             overflow-x: hidden;
             position: relative;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            will-change: background-position;
         }
 
         @keyframes galaxyShift {
@@ -47,6 +58,9 @@
             animation: gridMove 20s linear infinite;
             pointer-events: none;
             z-index: 1;
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
 
         @keyframes gridMove {
@@ -195,10 +209,13 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.1),
                 0 25px 50px rgba(0, 0, 0, 0.5);
             border-radius: 24px;
-            overflow: hidden;
+            overflow: visible;
             position: relative;
             z-index: 10;
             animation: containerGlow 4s ease-in-out infinite alternate;
+            will-change: box-shadow;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
 
         .container::before {
@@ -348,6 +365,18 @@
             border-radius: 16px;
             border: 1px solid rgba(0, 255, 255, 0.2);
             backdrop-filter: blur(10px);
+            text-align: left;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+            max-width: 100%;
+            word-break: break-word;
+            box-sizing: border-box;
+            max-width: 850px;
+            word-wrap: break-word;
+            overflow-x: hidden;
+            font-size: clamp(0.9rem, 1.2vw, 1.4rem);
+            max-height: none;
+            overflow-y: visible;
         }
         
         .recording-section {
@@ -849,7 +878,30 @@
         function displayQuestion() {
             const question = questions[currentQuestionIndex];
             document.getElementById('questionType').textContent = question.type;
-            document.getElementById('questionText').textContent = question.question;
+            
+            // Render question text with formatting for coding questions
+            const questionTextDiv = document.getElementById('questionText');
+            const codeTypes = ['CodeCompletion', 'TrickyCoding', 'TechCodeCompletion'];
+            
+            if (codeTypes.includes(question.type)) {
+                // Escape HTML special characters
+                const escapedText = question.question
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "<")
+                    .replace(/>/g, ">");
+                
+                // Replace newlines with <br> for display inside <pre>
+                questionTextDiv.innerHTML = `<pre style="font-size: clamp(0.7rem, 1vw, 1.4rem); max-width: 100%; white-space: pre-wrap; word-wrap: break-word;"><code>${escapedText}</code></pre>`;
+                questionTextDiv.style.maxWidth = '100%';
+                questionTextDiv.style.overflowX = 'hidden';
+            } else {
+                // For other types, preserve line breaks by replacing \n with <br>
+                const formattedText = question.question.replace(/\n/g, '<br>');
+                questionTextDiv.innerHTML = formattedText;
+                questionTextDiv.style.fontSize = 'clamp(1rem, 1.5vw, 1.6rem)';
+                questionTextDiv.style.maxWidth = '100%';
+                questionTextDiv.style.overflowX = 'hidden';
+            }
             
             // Update progress bar
             const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
