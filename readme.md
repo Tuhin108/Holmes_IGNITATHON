@@ -1,170 +1,365 @@
-# InterviewGPT - AI-Powered Mock Interview Platform
+# InterviewGPT 🧠⚡
 
-## Overview
-InterviewGPT is a Flask-based web application that provides AI-powered mock interviews for various job roles. Users can practice interview questions with real-time AI feedback using either voice input or manual text entry.
+**Master your next interview with AI-powered mock sessions**
 
-## Features Implemented
+InterviewGPT is a cutting-edge AI-powered interview preparation platform that generates personalized technical interview questions and provides real-time feedback to help candidates excel in their job interviews. Built with Flask and powered by advanced language models, it offers a comprehensive interview simulation experience.
 
-### Core Functionality
-- **Dynamic Question Generation**: AI generates 6 different types of interview questions based on user's target role
-- **Multi-Modal Input**: Supports both voice recognition and manual text input
-- **Real-time AI Evaluation**: Instant feedback and scoring (0-10) for each answer
-- **Progress Tracking**: Visual progress bar and session management
-- **Detailed Results**: Comprehensive breakdown of performance with statistics
+![InterviewGPT Banner](https://img.shields.io/badge/InterviewGPT-AI%20Interview%20Mastery-00ffff?style=for-the-badge&logo=robot)
 
-### Question Types Generated
-1. **Aptitude Question**: General reasoning and problem-solving
-2. **Code Completion**: Partially written code with expected output
-3. **Tricky Coding Challenge**: Full coding problem to solve
-4. **Tech-Specific Code Completion**: Role-specific technical challenge
-5. **Technical Theory**: Concept-based technical question
-6. **HR/Behavioral**: Soft skills and behavioral assessment
+## ✨ Features
 
-### UI/UX Features
-- **Cyberpunk Theme**: Modern dark theme with animated backgrounds
-- **Responsive Design**: Works on desktop and mobile devices
-- **Voice Recognition**: Browser-based speech-to-text functionality
-- **Real-time Feedback**: Immediate AI evaluation with constructive feedback
-- **Session Management**: Maintains interview state across page navigation
+### 🎯 Core Functionality
+- **Dynamic Question Generation**: AI generates 6 comprehensive interview questions tailored to specific roles
+- **Multi-Question Categories**: 
+  - Aptitude & Problem-Solving
+  - Code Completion Challenges
+  - Advanced Algorithmic Problems
+  - Technology-Specific Tasks
+  - Technical Architecture Questions
+  - HR & Leadership Scenarios
+- **Real-Time Voice Recognition**: Advanced speech-to-text capabilities for natural interview simulation
+- **AI-Powered Evaluation**: Intelligent scoring and detailed feedback for each response
+- **Manual Input Fallback**: Text-based input option for broader browser compatibility
 
-## Tech Stack
+### 🚀 User Experience
+- **Immersive UI/UX**: Cyberpunk-inspired design with dynamic animations and effects
+- **Progressive Web App**: Responsive design optimized for all devices
+- **Real-Time Progress Tracking**: Visual progress indicators and session management
+- **Comprehensive Results**: Detailed performance analytics and improvement suggestions
+- **Professional Reporting**: Printable results with detailed question-by-question breakdown
+
+### 🔧 Technical Excellence
+- **Enterprise-Grade Architecture**: Built with Flask for scalability and reliability
+- **Advanced Error Handling**: Robust error recovery and user feedback mechanisms
+- **Session Management**: Secure client-side session storage with data validation
+- **API Integration**: Seamless integration with Hugging Face's inference endpoints
+- **Browser Compatibility**: Support for modern web browsers with graceful degradation
+
+## 🛠️ Technology Stack
 
 ### Backend
-- **Flask**: Python web framework
-- **Google Gemini AI**: For question generation and answer evaluation
-- **Python Libraries**:
-  - `google-generativeai`: Gemini API integration
-  - `python-dotenv`: Environment variable management
-  - `flask`: Web framework
+- **Flask** - Lightweight WSGI web application framework
+- **Python 3.8+** - Core programming language
+- **OpenAI SDK** - Integration with language models via Hugging Face
+- **python-dotenv** - Environment variable management
 
 ### Frontend
-- **Vanilla JavaScript**: No external JS frameworks
-- **HTML5**: Semantic markup with modern features
-- **CSS3**: Custom animations and responsive design
-- **Web Speech API**: Browser-native voice recognition
+- **HTML5/CSS3** - Modern web standards with advanced CSS features
+- **Vanilla JavaScript** - Pure JavaScript for optimal performance
+- **Web Speech API** - Browser-native speech recognition
+- **CSS Grid/Flexbox** - Responsive layout systems
+- **CSS Animations** - Hardware-accelerated animations
 
-## Installation & Setup
+### AI/ML Integration
+- **GPT-OSS-120B** - Advanced language model via Cerebras
+- **Hugging Face Inference** - Cloud-based model serving
+- **Custom Prompt Engineering** - Optimized prompts for interview scenarios
+
+## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.7+
-- Google Gemini API key
+- Python 3.8 or higher
+- Modern web browser (Chrome, Firefox, Safari, Edge)
+- Hugging Face account with API access
 
-### Step-by-Step Setup
+### Installation
 
 1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd interviewgpt
-   ```
+```bash
+git clone https://github.com/yourusername/interviewgpt.git
+cd interviewgpt
+```
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+2. **Create virtual environment**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-3. **Set up environment variables**
-   Create a `.env` file in the root directory:
-   ```
-   GEMINI_API_KEY=your_gemini_api_key_here
-   ```
+3. **Install dependencies**
+```bash
+pip install -r requirements.txt
+```
 
-4. **Run the application**
-   ```bash
-   python app.py
-   ```
+4. **Environment setup**
+```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
 
-5. **Access the application**
-   Open browser and navigate to: `http://localhost:5000`
+5. **Configure environment variables**
+```env
+HF_TOKEN=your_hugging_face_token_here
+FLASK_DEBUG=false
+PORT=7860
+```
 
-## File Structure
+6. **Run the application**
+```bash
+python app.py
+```
+
+7. **Access the application**
+   - Open your browser and navigate to `http://localhost:7860`
+   - Start your AI-powered interview preparation!
+
+## 📁 Project Structure
+
 ```
 interviewgpt/
 ├── app.py                 # Main Flask application
 ├── requirements.txt       # Python dependencies
-├── .env                  # Environment variables (create this)
-├── templates/
-│   ├── index.html        # Landing page
-│   ├── interview.html    # Interview session page
-│   └── results.html      # Results and analytics page
-└── README.md
+├── .env.example          # Environment variables template
+├── .gitignore           # Git ignore rules
+├── README.md            # Project documentation
+└── templates/           # HTML templates
+    ├── index.html       # Landing page
+    ├── interview.html   # Interview interface
+    └── results.html     # Results dashboard
 ```
 
-## Usage Flow
+## 🔧 Configuration
 
-### 1. Landing Page (`/`)
-- User enters target job role (e.g., "Frontend Developer")
-- Click "Initialize AI Session" to generate questions
-- Questions are stored in browser sessionStorage
+### Environment Variables
 
-### 2. Interview Session (`/interview`)
-- Displays questions one by one with progress tracking
-- Voice input via microphone or manual text input
-- Real-time answer submission and AI evaluation
-- Immediate feedback with score (0-10 scale)
+| Variable | Description | Default | Required |
+|----------|-------------|---------|----------|
+| `HF_TOKEN` | Hugging Face API token | - | ✅ Yes |
+| `FLASK_DEBUG` | Enable Flask debug mode | `false` | ❌ No |
+| `PORT` | Application port | `7860` | ❌ No |
 
-### 3. Results Page (`/results`)
-- Comprehensive performance analytics
-- Question-by-question breakdown
-- Overall statistics and strongest areas
-- Option to print results or start new interview
+### Model Configuration
 
-## API Endpoints
+The application uses **GPT-OSS-120B** via Cerebras through Hugging Face's inference endpoints. To modify the model:
 
-### `POST /generate_questions`
-Generates 6 interview questions for a specific role.
-- **Input**: `{"role": "Frontend Developer"}`
-- **Output**: `{"questions": [...]}`
+```python
+MODEL = "openai/gpt-oss-120b:cerebras"  # Current model
+# Can be changed to other compatible models
+```
 
-### `POST /evaluate`
-Evaluates user's answer and provides feedback.
-- **Input**: `{"question": "...", "answer": "..."}`
-- **Output**: `{"feedback": "...", "score": 7}`
+## 🎮 How to Use
 
-## Key Implementation Details
+### 1. Start Interview Session
+- Enter your target role (e.g., "Full Stack Developer", "Data Scientist")
+- Click "Initialize AI Session" to generate personalized questions
 
-### AI Integration
-- Uses Google Gemini 2.5 Flash model for fast responses
-- Structured prompts for consistent question generation
-- JSON parsing with fallback error handling
-- Score normalization (0-10 scale)
+### 2. Answer Questions
+- **Voice Mode**: Click the microphone button and speak your answer
+- **Manual Mode**: Switch to text input for typing responses
+- Questions cover 6 different categories for comprehensive assessment
 
-### Voice Recognition
-- Web Speech API integration
-- Continuous speech recognition with interim results
-- Automatic fallback to manual input if not supported
-- Cross-browser compatibility handling
+### 3. Receive AI Feedback
+- Get immediate scoring (0-10) for each answer
+- Read detailed feedback on your performance
+- Learn from constructive suggestions
 
-### Session Management
-- Browser sessionStorage for interview state
-- Progress persistence across page navigation
-- Automatic cleanup on new sessions
+### 4. Review Results
+- View comprehensive performance analytics
+- Analyze question-by-question breakdown
+- Print or save results for future reference
 
-### Error Handling
-- Graceful degradation for unsupported browsers
-- API error handling with user-friendly messages
-- JSON parsing validation
-- Network timeout handling
+## 🔄 API Endpoints
 
-## Browser Compatibility
-- **Full Support**: Chrome, Edge (with voice recognition)
-- **Partial Support**: Firefox, Safari (manual input only)
-- **Mobile**: Responsive design works on all devices
+### Core Endpoints
 
-## Future Enhancements
-- [ ] Database integration for user profiles
-- [ ] Advanced analytics and progress tracking
-- [ ] Multiple AI model support
-- [ ] Video interview simulation
-- [ ] Team interview scenarios
-- [ ] Industry-specific question banks
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | Landing page |
+| `/interview` | GET | Interview interface |
+| `/results` | GET | Results dashboard |
+| `/generate_questions` | POST | Generate AI questions |
+| `/evaluate` | POST | Evaluate user responses |
 
-## Hackathon Implementation Notes
+### Utility Endpoints
 
-This project was built with focus on:
-- **Rapid Development**: Clean, modular code structure
-- **User Experience**: Intuitive interface with immediate feedback
-- **AI Innovation**: Creative use of Gemini API for interview simulation
-- **Technical Excellence**: Robust error handling and cross-browser support
-- **Practical Value**: Addresses real need for interview preparation
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | Application health check |
+| `/test_api` | GET | API connectivity test |
 
-The application demonstrates effective integration of modern web technologies with AI capabilities to create a practical tool for job interview preparation.
+## 🧪 Testing
+
+### Health Check
+```bash
+curl http://localhost:7860/health
+```
+
+### API Test
+```bash
+curl http://localhost:7860/test_api
+```
+
+### Manual Testing Flow
+1. Navigate to the landing page
+2. Enter a test role (e.g., "Software Engineer")
+3. Complete the interview simulation
+4. Verify results page functionality
+
+## 🛡️ Error Handling
+
+The application implements comprehensive error handling:
+
+- **API Failures**: Graceful fallback with user-friendly messages
+- **Network Issues**: Automatic retry mechanisms with exponential backoff
+- **Browser Compatibility**: Feature detection and polyfills
+- **Input Validation**: Client and server-side validation
+- **Session Management**: Automatic cleanup and recovery
+
+## 📊 Performance Features
+
+### Optimization
+- **Lazy Loading**: Dynamic content loading for faster initial page loads
+- **Caching**: Intelligent caching of API responses
+- **Compression**: Gzip compression for faster data transfer
+- **Minification**: Optimized CSS and JavaScript delivery
+
+### Monitoring
+- **Logging**: Comprehensive application logging
+- **Error Tracking**: Detailed error reporting and stack traces
+- **Performance Metrics**: Response time and throughput monitoring
+
+## 🔒 Security Considerations
+
+- **Input Sanitization**: All user inputs are properly sanitized
+- **CSRF Protection**: Built-in Flask CSRF protection
+- **API Key Security**: Environment-based configuration
+- **Client-Side Storage**: Secure session management
+- **Error Information**: No sensitive data in error messages
+
+## 🚀 Deployment
+
+### Local Development
+```bash
+python app.py
+```
+
+### Production Deployment
+
+#### Docker Deployment
+```dockerfile
+FROM python:3.9-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+EXPOSE 7860
+CMD ["python", "app.py"]
+```
+
+#### Heroku Deployment
+```bash
+git add .
+git commit -m "Deploy to Heroku"
+git push heroku main
+```
+
+#### Environment Variables for Production
+```env
+HF_TOKEN=your_production_token
+FLASK_DEBUG=false
+PORT=80
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these guidelines:
+
+### Development Setup
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Add tests for new functionality
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
+
+### Code Standards
+- Follow PEP 8 for Python code
+- Use meaningful variable names
+- Add docstrings for functions
+- Include error handling
+- Write unit tests
+
+### Areas for Contribution
+- Additional question categories
+- Multi-language support
+- Advanced analytics
+- Mobile app development
+- Performance optimizations
+
+## 📋 Requirements
+
+### System Requirements
+- Python 3.8+
+- 2GB+ RAM
+- Modern web browser
+- Internet connection for AI inference
+
+### Python Dependencies
+```txt
+Flask==2.3.3
+python-dotenv==1.0.0
+openai==1.3.0
+requests==2.31.0
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Q: Speech recognition not working**
+- Ensure you're using HTTPS or localhost
+- Check browser permissions for microphone access
+- Try the manual input option as fallback
+
+**Q: API errors during question generation**
+- Verify your Hugging Face token is valid
+- Check internet connectivity
+- Monitor API rate limits
+
+**Q: Questions not displaying properly**
+- Clear browser cache and cookies
+- Check browser console for JavaScript errors
+- Ensure sessionStorage is enabled
+
+**Q: Slow response times**
+- Check network connectivity
+- Monitor Hugging Face API status
+- Consider using a different model endpoint
+
+## 📚 Documentation
+
+### Additional Resources
+- [Flask Documentation](https://flask.palletsprojects.com/)
+- [Hugging Face API Guide](https://huggingface.co/docs/api-inference/index)
+- [Web Speech API Reference](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **Hugging Face** for providing world-class AI inference infrastructure
+- **Cerebras** for the powerful GPT-OSS-120B model
+- **Flask Community** for the excellent web framework
+- **Open Source Community** for inspiration and continuous improvement
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/yourusername/interviewgpt/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/interviewgpt/discussions)
+- **Email**: support@interviewgpt.com
+
+---
+
+<div align="center">
+  
+**InterviewGPT - Where AI meets Interview Excellence** 🚀
+
+[![Made with ❤️ by Developer](https://img.shields.io/badge/Made%20with%20❤️-by%20Developer-red.svg)](https://github.com/yourusername)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
+[![Flask](https://img.shields.io/badge/Flask-2.3+-green.svg)](https://flask.palletsprojects.com)
+[![AI Powered](https://img.shields.io/badge/AI-Powered-purple.svg)](https://huggingface.co)
+
+</div>
